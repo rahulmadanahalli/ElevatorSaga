@@ -10,32 +10,34 @@
         
         function up_pressed(floorNum) {
             if (elevator.goingUpIndicator()) { //if elevator is going up
-                if (floorNum >= elevator.currentFloor() && elevator.loadFactor() < 1) {//if floor is on the way up and elevator isn't full
+                if (floorNum > elevator.currentFloor() && elevator.loadFactor() < 1) {//if floor is on the way up and elevator isn't full
                     elevator.destinationQueue.push(floorNum); //add floor to elevator path
                     elevator.destinationQueue.sort();
                     elevator.checkDestinationQueue();
+                    window.alert(floorNum)
                 } else {                             //if elevator already passed this floor
                     floors_going_up.push(floorNum);//queue the elevator for the next time you're going up.
                 }
             } else if (elevator.goingDownIndicator()) {//if elevator is going down
                 floors_going_up.push(floorNum); //queue the elevator for the next time you're going up.    
             }
-            window.alert("floor up " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
+            //window.alert("floor up " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
         }
         function down_pressed(floorNum) {
             if (elevator.goingDownIndicator()) {//if elevator is going down
-                if (floorNum <= elevator.currentFloor() && elevator.loadFactor() < 1) { //if floor is on the way down and elevator isn't full
+                if (floorNum < elevator.currentFloor() && elevator.loadFactor() < 1) { //if floor is on the way down and elevator isn't full
                     elevator.destinationQueue.push(floorNum);//add floor to elevator path
                     elevator.destinationQueue.sort();
                     elevator.destinationQueue.reverse();
                     elevator.checkDestinationQueue();
+                    window.alert(floorNum)
                 } else {                                             //if elevator already passed this floor 
                     floors_going_down.push(floorNum); //queue the elevator for the next time you're going down.
                 }
             } else if (elevator.goingUpIndicator()) {
                 floors_going_down.push(floorNum); //queue the elevator for the next time you're going up.
             }
-            window.alert("floor down " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
+            //window.alert("floor down " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
         }
 
         floor0 = floors[0];
@@ -48,6 +50,7 @@
                     elevator.destinationQueue.push(floorNum); //add floor to elevator path
                     elevator.destinationQueue.sort();
                     elevator.checkDestinationQueue();
+                    window.alert(elevator.loadFactor());
                 } else {                             //if elevator already passed this floor
                     floors_going_up.push(floorNum);//queue the elevator for the next time you're going up.
                 }
@@ -57,7 +60,7 @@
                 elevator.destinationQueue.reverse();
                 elevator.checkDestinationQueue();    
             }
-            window.alert("floor up " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
+            //window.alert("floor up " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
         });
 
 
@@ -156,7 +159,7 @@
                 }
                 elevator.goingUpIndicator(true); 
                 elevator.goingDownIndicator(false);
-            } else if (floorNum == 2) {
+            } else if (floorNum == 4) {
                 if (floors_going_down.length != 0 && elevator.destinationQueue.length == 0){ //if the going down queue isn't empty and the destination queue is empty
                     elevator.destinationQueue = floors_going_down; //make destination queue the going down queue
                     elevator.destinationQueue.sort();
