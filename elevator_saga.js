@@ -40,11 +40,9 @@
             //window.alert("floor down " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
         }
 
-        floor0 = floors[0];
-
         //button gets pressed on floor 0
-        floor0.on("up_button_pressed", function() {
-            floorNum = floor0.floorNum();
+        floors[0].on("up_button_pressed", function() {
+            floorNum = this.floorNum();
             if (elevator.goingUpIndicator()) { //if elevator is going up
                 if (floorNum >= elevator.currentFloor() && elevator.loadFactor() < 1) {//if floor is on the way up and elevator isn't full
                     elevator.destinationQueue.push(floorNum); //add floor to elevator path
@@ -63,49 +61,21 @@
             //window.alert("floor up " + floorNum + ": \nelevator: [" + elevator.destinationQueue + "], goingUp: [" + floors_going_up + "], goingDown: [" + floors_going_down + "]");
         });
 
+        for (var i = 1; i < floors.length - 1; i++) {
+            floor = floors[i];
+            //button gets pressed on floor 1
+            floor.on("up_button_pressed", function() {
+                up_pressed(this.floorNum());
+            });
+            floor.on("down_button_pressed", function() {
+                down_pressed(this.floorNum());
+            });
+        }
 
-        floor1 = floors[1];
-
-        //button gets pressed on floor 1
-        floor1.on("up_button_pressed", function() {
-            floorNum = floor1.floorNum();
-            up_pressed(floorNum);
-        });
-        floor1.on("down_button_pressed", function() {
-            floorNum = floor1.floorNum();
-            down_pressed(floorNum);
-
-        });
-
-        floor2 = floors[2];
-
-        //button gets pressed on floor 1
-        floor2.on("up_button_pressed", function() {
-            floorNum = floor2.floorNum();
-            up_pressed(floorNum);
-        });
-        floor2.on("down_button_pressed", function() {
-            floorNum = floor2.floorNum();
-            down_pressed(floorNum);
-        });
-
-        floor3 = floors[3];
-
-        //button gets pressed on floor 1
-        floor3.on("up_button_pressed", function() {
-            floorNum = floor3.floorNum();
-            up_pressed(floorNum);    
-        });
-        floor3.on("down_button_pressed", function() {
-            floorNum = floor3.floorNum();
-            down_pressed(floorNum);
-        });
-
-        floor4 = floors[4];
 
         //button gets pressed on floor 2
-        floor4.on("down_button_pressed", function() {
-            floorNum = floor4.floorNum();
+        floor[floors.length - 1].on("down_button_pressed", function() {
+            floorNum = this.floorNum();
             if (elevator.goingDownIndicator()) {//if elevator is going down
                 if (floorNum <= elevator.currentFloor() && elevator.loadFactor() < 1) { //if floor is on the way down and elevator isn't full
                     elevator.destinationQueue.push(floorNum);//add floor to elevator path
@@ -159,7 +129,7 @@
                 }
                 elevator.goingUpIndicator(true); 
                 elevator.goingDownIndicator(false);
-            } else if (floorNum == 4) {
+            } else if (floorNum == floors.length - 1) {
                 if (floors_going_down.length != 0 && elevator.destinationQueue.length == 0){ //if the going down queue isn't empty and the destination queue is empty
                     elevator.destinationQueue = floors_going_down; //make destination queue the going down queue
                     elevator.destinationQueue.sort();
