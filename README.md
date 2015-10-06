@@ -1,5 +1,6 @@
 # ElevatorSaga
 With high probability, current solution can complete challenges 1 - 9, 11, 12, 16, and 17 with high probability.
+TODO: write up performance.
 
 ## Features
 
@@ -7,10 +8,12 @@ Once a person presses an elevator up/down button on the floor, I have a schedule
 
 A pet peeve of mine for elevators is that they stop on a floor even if there is absolutely no room in the elevator for you or your friends. The elevators in ElevatorSaga have a load factor sensor that senses capactiy limits, and I implemented a system where, if the elevator is full and it is scheduled to go to certain floors, it'll only go to the floors where it can drop off people. The other floors that it cannot visit since it is full will be rescheduled to another elevator.
 
+When multiple people request for going up/down on a given floor, all those requests are consolidated one elevator call.
+
 
 
 ## Potential Improvements/Optimizations
-Store array of people at each floor; therefore, you can augment the elevator scheduling algorithm to assign bigger capacity elevators to floors with more people.
+Store array of people at each floor; therefore, you can augment the elevator scheduling algorithm to assign bigger capacity elevators to floors with more people. In addition, you can dynamically calculate how full an elevator will be when it will visit a particular floor, and if an elevator cannot pick up everyone, then we immediately assign another elevator to that floor (preemptively).
 
 Store queue of elevators in javascript max/min (depending on whether you're going up or down) heap implementation . This will minimize the operational run time from klogk to logk for adding a floor to the elevators destination queue (where k is the number of elements already in the queue).
 
